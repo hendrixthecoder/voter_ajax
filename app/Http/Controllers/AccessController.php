@@ -26,7 +26,8 @@ class AccessController extends Controller
         // Validate incoming rquest fields
         $validator = Validator::make($request->all(), [
             'name' => 'bail|required|alpha',
-            'email' => 'bail|email|required'
+            'email' => 'bail|email|required',
+            
         ]);
 
         // If validator fails, send a res with the errors 
@@ -38,10 +39,10 @@ class AccessController extends Controller
             ]);  
 
         // Check implemented to see if a user with the email or IP already exists in the db
-        }elseif(User::where('email', $request->email)->first() || (User::where('ip', $request->ip())->first())){
+        }elseif(User::where('email', $request->email)->first() || (User::where('ip', $request->ip())->first()) || User::where('mac', $request->mac)->first()){
             return response()->json([
                 'state' => 'wahala',
-                'errors' => 'One IP Address or Email per vote',
+                'errors' => 'You can only vote once!',
             ]);
 
         }else{
@@ -50,6 +51,7 @@ class AccessController extends Controller
             $user->name = $request->name;
             $user->email = $request->email;
             $user->ip = $request->ip();
+            $user->mac = exec('getmac');
             $user->save();
     
             return response()->json([
