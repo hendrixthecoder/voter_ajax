@@ -48,6 +48,7 @@ class AccessController extends Controller
 
         }
         else{
+            // Checks if the cadidates exists in the db
             $candidate = Candidate::where('name', $request->candidate)->first();
             if($candidate){
                 $candidate->vote_count++;
@@ -68,18 +69,13 @@ class AccessController extends Controller
                 ]);
             }
 
+            // returns back with if user is not found
+
             return response()->json([
                 'state' => 'noCandidate',
                 'errors' => 'Candidate does not exist!'
             ]);
         }
-
-    }
-
-    public function getVotesList () {
-        return response()->json([
-            'users' => Candidate::all()
-        ]);
 
     }
 
@@ -91,6 +87,5 @@ class AccessController extends Controller
     }
 
     
-
 
 }

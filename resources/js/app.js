@@ -1,33 +1,39 @@
 import './bootstrap';
 $(document).ready(function(){
-    // $.get('get-count', ({count}) => {
-    //     $('#counter').html(count)
-    // })
-    console.log(document.getElementById(1))
 
+    // Get list of candidates in the database and append them to the select element in the form
     $.ajax({
         type: "GET",
         url: "get-candidates",
         dataType: "JSON",
         success: function (response) {
-            $.each(response.candidates, (key, {name}) => {
+            $.each(response.candidates, (key, {name, vote_count}) => {
                 $('#candidate').append(
                     `<option id="${key}" value="${name}">${name}</option>`
+                )
+
+                $('tbody').append(
+                    `<tr>
+                        <td>${name}</td>
+                        <td class="text-center">${vote_count}</td>
+                    </tr>`
                 )
             })
         }
     });
 
-    function getStudents () {
+    // Get lists of all candidates and their vote count and append it to the table
+
+    function getCandidates () {
         $.ajax({
             type: "GET",
-            url: "get-users",
+            url: "get-candidates",
             dataType: "JSON",
             success: function (response) {
                 if(response.users != ''){
                     $("tbody").html('')
 
-                    $.each(response.users, (key, {name,vote_count}) => {
+                    $.each(response.candidates, (key, {name,vote_count}) => {
                         $('tbody').append(
                             `<tr>
                                 <td>${name}</td>
@@ -41,17 +47,13 @@ $(document).ready(function(){
         })
     }
 
-    getStudents();
-
+    // setting time to 5 seconds to refresh vote list
     const interval = window.setInterval(() => {
-        $.get('get-count', function({count}){
-            $('#counter').html(count)
-        })
-
-        getStudents();
+        getCandidates();
 
     }, 5000);
 
+    // getting data to send to backend from form 
     $(document).on('submit', 'form', function(e){
         e.preventDefault();
         let data = {
