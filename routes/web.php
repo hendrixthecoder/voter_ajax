@@ -21,3 +21,5 @@ Route::post('vote', [AccessController::class, 'vote'])->name('postVote');
 Route::get('get-count', [AccessController::class, 'getCountOfVotes'])->name('getCount');
 
 Route::get('get-users', [AccessController::class, 'getVotesList'])->name('getList');
+
+Route::get('get-candidates', [AccessController::class, 'getCandidates'])->name('getCandidates');

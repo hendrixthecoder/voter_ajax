@@ -1,8 +1,22 @@
 import './bootstrap';
 $(document).ready(function(){
-    $.get('get-count', ({count}) => {
-        $('#counter').html(count)
-    })
+    // $.get('get-count', ({count}) => {
+    //     $('#counter').html(count)
+    // })
+    console.log(document.getElementById(1))
+
+    $.ajax({
+        type: "GET",
+        url: "get-candidates",
+        dataType: "JSON",
+        success: function (response) {
+            $.each(response.candidates, (key, {name}) => {
+                $('#candidate').append(
+                    `<option id="${key}" value="${name}">${name}</option>`
+                )
+            })
+        }
+    });
 
     function getStudents () {
         $.ajax({
@@ -13,11 +27,11 @@ $(document).ready(function(){
                 if(response.users != ''){
                     $("tbody").html('')
 
-                    $.each(response.users, (key, {id,name,email,ip}) => {
+                    $.each(response.users, (key, {name,vote_count}) => {
                         $('tbody').append(
                             `<tr>
                                 <td>${name}</td>
-                                <td>${email}</td>
+                                <td class="text-center">${vote_count}</td>
                             </tr>`
                         )
                     })
@@ -42,7 +56,8 @@ $(document).ready(function(){
         e.preventDefault();
         let data = {
             "name": $('#name').val(),
-            "email": $('#email').val()
+            "email": $('#email').val(),
+            "candidate": $('#candidate').val()
         }
 
         $.ajaxSetup({
@@ -67,12 +82,17 @@ $(document).ready(function(){
                         $('#close_icon').click(() => $('#error_list').html(''))
                     });
                 
-                }else if (response.state == 'wahala'){
+                }else if (response.state == 'alreadyVoted'){
                     $('#exampleModalLabel').html('Whoops')
-                    $('#error_list').html(response.errors)
+                    $('#error_list').html(response.error)
                     $('#error_button').click();
                     
-                }else if(response.status == 200){
+                }else if (response.state == 'noCandidate') {
+                    $('#exampleModalLabel').html('Whoops')
+                    $('#error_list').html(response.error)
+                    $('#error_button').click();
+                }
+                else if(response.status == 200){
                     $('#exampleModalLabel').html('Success!')
                     $('#error_list').html(response.success)
                     $('#error_button').click();
