@@ -26,9 +26,9 @@ class AccessController extends Controller
     public function vote (Request $request) {
         // Validate incoming rquest fields
         $validator = Validator::make($request->all(), [
-            'name' => 'bail|required|alpha',
+            'name' => 'bail|required|',
             'email' => 'bail|email|required',
-            'candidate' => 'bail|required'
+            'candidate' => 'bail|required|'
         ]);
 
         // If validator fails, send a res with the errors 
@@ -58,7 +58,7 @@ class AccessController extends Controller
                 $user->ip = $request->ip();
                 $user->vote = $request->candidate;
                 $user->mac = exec('getmac');
-                
+
                 $candidate->save();
                 $user->save();
         
