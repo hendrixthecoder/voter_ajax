@@ -19,3 +19,7 @@ Route::get('/', [AccessController::class, 'front'])->name('front');
 Route::post('vote', [AccessController::class, 'vote'])->name('postVote');
 
 Route::get('get-candidates', [AccessController::class, 'getCandidates'])->name('getCandidates');
+
+Route::get('test', function () {
+    return view('test');
+});

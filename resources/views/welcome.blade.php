@@ -5,73 +5,112 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Voter</title>
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/tw-elements.min.css" />
-    @vite(['resources/css/app.css', 'resources/js/app.js'])  
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+
+    @vite(['resources/css/app.css', 'resources/js/app.js']) 
+    <style>
+        dialog::backdrop {
+            background-color: rgba(0,0,0,0.5);
+        }
+    </style>
 </head>
+<body class=" font-comf h-screen m-0 transition-all">
+    <button id="openBtn" style="display: none">Open</button>
 
-<body class="bg-gray-100 font-comf">
-    <div class="mx-auto w-9/12">
-        <div class="w-9/12 mx-auto text-center">
-            <h1 class="text-4xl">Welcome to <span class="text-blue-800">Voter</span>!</h1>
+    <dialog id="modal" class="w-10/12 rounded-md shadow">
+        <div id="modal-body" class="my-3 list-none">
+
         </div>
+        <button class="text-white bg-red-600 text-sm px-3 py-1 rounded-md  " id="closeBtn">Close</button>
+    </dialog>
+    <div class="flex h-screen flex-col">
+        <div class="grow flex">
+            <div class="mx-auto my-auto " id="board">
+                <section id="homepage" class="font-bold text-4xl" style="display: none" data-page-number="1">
+                    Welcome to Voter!
+                </section>
 
-        {{-- Counter code starts here --}}
-        {{-- <div class="mt-10 bg-white shadow rounded-md p-3 text-sm ">
-            <p id="count_p">Current vote count: <span id="counter" class=""></span></p>
-        </div> --}}
-        {{-- Counter code ends here --}}
+                {{-- Form page starts here --}}
+                <section id="pollpage" class="" style="display: none" data-page-number="2">
+                    <div class=" w-96 h-96" id="before-vote">
+                        <p class="text-4xl font-bold">Hi there! Please fill in the details below to vote.</p>
+                        <form action="" method="post" id="form" class="mt-8">
+                            @csrf
+                            <input type="text" name="name" placeholder="Name.." class="w-full border rounded-md my-2 focus:outline-none pl-2 py-1 text-black text-sm" id="name" value="{{ old('name') }}">
+
+                            <input type="text" placeholder="Email.." name="email" class="w-full border rounded-md my-2 focus:outline-none pl-2 py-1 text-black text-sm " id="email" value="{{ old('email') }}">
+
+                            <div class="mt-3">
+                                <label for="candidate" class="text-gray-600 text-sm">Candidate:</label>
+                                <select name="candidate" id="candidate" class="">
+                                    <option class="text-sm" selected value="">...</option>
+                                </select>
+                            </div>
         
+                            <input type="submit" id="submit" value="Submit Vote" class="border w-full border-green-800 block mt-8 text-sm p-2 text-white rounded-md bg-green-800 transition-all hover:bg-white hover:text-black">
+                        </form>
+                    </div>
+                    <div class="text-4xl font-bold" style="display: none" id="after-vote">
+                        Thanks for voting! Check live results in the Results tab.
+                    </div>
+                </section>
+                {{-- Form page ends here --}}
 
-        {{-- Registration Code starts here --}}
-        <div class="mt-10 bg-white p-10 rounded-md shadow">
+                {{-- Results page starts here --}}
+                <section id="resultpage" class="font-bold text-center" style="display: none" data-page-number="2">
+                    <div class=" w-96 h-96" id="">
+                        <p class="text-4xl">Poll Results</p>
+                        <p class="text-sm text-green-700">Total Stats</p>
+                        <div class="flex justify-between w-11/12 mx-auto text-lg p-2 mt-24">
+                            <div>Name</div>
+                            <div>Vote Count</div>
+                        </div>
+                        <div id="palate" class="text-sm ">
 
-            <div class="">
-                <p>Hi there! Please fill in the details below to vote.</p>
-            </div>
-            <div class="">
-                <form action="" method="post" id="form">
-                    @csrf
-                    <label for="name" class="text-sm">Name:</label>
-                    <input type="text" name="name" class="w-full border rounded-md my-2 focus:outline-none pl-2 py-1 text-black text-sm" id="name" value="{{ old('name') }}">
-
-                    <label for="candidate" class="text-sm">Candidate:</label>
-                    <select name="candidate" id="candidate">
-                        <option class="text-sm" selected value="">List of Candidates...</option>
-                    </select>
-                    {{-- <input type="text" name="candidate" class="w-full border rounded-md my-2 focus:outline-none pl-2 py-1 text-black text-sm" id="name" value="{{ old('candidate') }}"> --}}
-
-                    <label for="email" class="text-sm block mt-3">Email:</label>
-                    <input type="text" name="email" class="w-full border rounded-md my-2 focus:outline-none pl-2 py-1 text-black text-sm " id="email" value="{{ old('email') }}">
-
-                    <input type="submit" id="submit" value="Submit Vote" class="border border-blue-800 block mt-3 text-sm p-2 text-white rounded-md bg-blue-800 transition-all hover:bg-white hover:text-black">
-                </form>
+                        </div>
+                    </div>
+                </section>
+                {{-- Results page end here --}}
             </div>
         </div>
-        {{-- Registration code ends here --}}
-
-        {{-- Live reload of voters starts here --}}
-        <div class="mt-10 shadow bg-white text-sm mb-10 p-2 rounded-md ">
-            <table class="mx-auto">
-                <thead class="m" >
-                    <tr class="ml-0">
-                        <th class="">Name</th>
-                        <th class="text-center">Vote Count</th>
-                    </tr>
-                </thead>
-                <tbody class="">
-
-                </tbody>
-            </table>
+        <div class=" h-20 transition-all bg-green-700 grid grid-cols-3 text-center">
+            <span id="home" class="material-icons icon-sizing my-4 text-white cursor-pointer place-self-center ">home</span>
+            <span id="poll" class="material-icons icon-sizing my-4 text-white cursor-pointer place-self-center">how_to_vote</span>
+            <span id="results" class="material-icons icon-sizing my-4 text-white cursor-pointer place-self-center">poll</span>
         </div>
-        {{-- Live reload of voters ends here --}}
-
-        @include('modals')
     </div>
 
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/tw-elements.umd.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            $('#pollpage').show()
+
+            $('#home').click(() => {
+
+                $('#pollpage').hide()
+                $('#resultpage').hide()
+                $('#homepage').show()
+            })
+
+            $('#poll').click(() => {
+                $('#homepage').hide()
+                $('#resultpage').hide()
+                $('#pollpage').show()
+            })
+
+            $('#results').click(() => {
+                $('#homepage').hide()
+                $('#pollpage').hide()
+                $('#resultpage').show()
+            })
+        })
+        
+
+    </script>
 </body>
 </html>

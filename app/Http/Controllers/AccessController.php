@@ -13,16 +13,6 @@ class AccessController extends Controller
         return view('welcome');
     }
 
-    public function getCountOfVotes () {
-        // Since its impossible to submit votes when your IP or email has been logged in the db, the easiest way to get vote count is to get the number of users in the db
-        $count = User::count();
-
-        return response()->json([
-            'count' => $count
-            ]
-        );
-    }
-
     public function vote (Request $request) {
         // Validate incoming rquest fields
         $validator = Validator::make($request->all(), [
@@ -73,7 +63,7 @@ class AccessController extends Controller
 
             return response()->json([
                 'state' => 'noCandidate',
-                'errors' => 'Candidate does not exist!'
+                'error' => 'Candidate does not exist!'
             ]);
         }
 
