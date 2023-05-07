@@ -17,7 +17,7 @@ class AccessController extends Controller
         // Validate incoming rquest fields
         $validator = Validator::make($request->all(), [
             'name' => 'bail|required|',
-            'email' => 'bail|email|required',
+            'email' => 'bail|required|email',
             'candidate' => 'bail|required|'
         ]);
 
@@ -33,7 +33,7 @@ class AccessController extends Controller
         }elseif(User::where('email', $request->email)->first() || (User::where('ip', $request->ip())->first()) || User::where('mac', $request->mac)->first()){
             return response()->json([
                 'state' => 'alreadyVoted',
-                'error' => 'You can only vote once!',
+                'error' => 'Sorry! You can only vote once.',
             ]);
 
         }

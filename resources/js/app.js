@@ -1,5 +1,27 @@
 import './bootstrap';
+
 $(document).ready(function(){
+    
+    $('#homepage').show()
+
+    $('#home').click(() => {
+
+        $('#pollpage').hide()
+        $('#resultpage').hide()
+        $('#homepage').show()
+    })
+
+    $('#poll').click(() => {
+        $('#homepage').hide()
+        $('#resultpage').hide()
+        $('#pollpage').show()
+    })
+
+    $('#results').click(() => {
+        $('#homepage').hide()
+        $('#pollpage').hide()
+        $('#resultpage').show()
+    })
 
     const openBtn = document.getElementById('openBtn');
     const btnClose = document.getElementById('closeBtn');
@@ -28,9 +50,9 @@ $(document).ready(function(){
                 $.each(response.candidates, (key, {name,vote_count}) => {
 
                     $('#palate').append(`
-                        <div class="flex justify-between w-11/12 mx-auto">
+                        <div class="flex justify-between w-11/12 mx-auto border-b">
                             <div class="p-2">${name}</div>
-                            <div>${vote_count}</div>
+                            <div class="p-2">${vote_count}</div>
                         </div>
        
                     `)
@@ -52,9 +74,9 @@ $(document).ready(function(){
 
                     $.each(response.candidates, (key, {name,vote_count}) => {
                         $('#palate').append(`
-                            <div class="flex justify-between w-11/12 mx-auto ">
+                            <div class="flex justify-between w-11/12 mx-auto border-b">
                                 <div class="p-2">${name}</div>
-                                <div>${vote_count}</div>
+                                <div class="p-2">${vote_count}</div>
                             </div>
            
                         `)

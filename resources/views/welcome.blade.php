@@ -38,13 +38,13 @@
                         <p class="text-4xl font-bold">Hi there! Please fill in the details below to vote.</p>
                         <form action="" method="post" id="form" class="mt-8">
                             @csrf
-                            <input type="text" name="name" placeholder="Name.." class="w-full border rounded-md my-2 focus:outline-none pl-2 py-1 text-black text-sm" id="name" value="{{ old('name') }}">
+                            <input type="text" name="name" placeholder="Name" class="w-full border-b rounded-md my-2 focus:outline-none pl-2 py-2 text-black text-sm" id="name" value="{{ old('name') }}">
 
-                            <input type="text" placeholder="Email.." name="email" class="w-full border rounded-md my-2 focus:outline-none pl-2 py-1 text-black text-sm " id="email" value="{{ old('email') }}">
+                            <input type="text" placeholder="Email" name="email" class="w-full border-b rounded-md my-2 focus:outline-none pl-2 py-2 text-black text-sm " id="email" value="{{ old('email') }}">
 
-                            <div class="mt-3">
-                                <label for="candidate" class="text-gray-600 text-sm">Candidate:</label>
-                                <select name="candidate" id="candidate" class="">
+                            <div class="mt-3 flex space-x-1 ">
+                                <label for="candidate" class="text-gray-600 text-sm ">Candidate:</label>
+                                <select name="candidate" id="candidate" class=" grow">
                                     <option class="text-sm" selected value="">...</option>
                                 </select>
                             </div>
@@ -67,7 +67,7 @@
                             <div>Name</div>
                             <div>Vote Count</div>
                         </div>
-                        <div id="palate" class="text-sm ">
+                        <div id="palate" class="text-sm font-normal ">
 
                         </div>
                     </div>
@@ -75,7 +75,7 @@
                 {{-- Results page end here --}}
             </div>
         </div>
-        <div class=" h-20 transition-all bg-green-700 grid grid-cols-3 text-center">
+        <div class=" h-20 w-9/12 mb-5 mx-auto rounded-md transition-all bg-green-700 grid grid-cols-3 text-center">
             <span id="home" class="material-icons icon-sizing my-4 text-white cursor-pointer place-self-center ">home</span>
             <span id="poll" class="material-icons icon-sizing my-4 text-white cursor-pointer place-self-center">how_to_vote</span>
             <span id="results" class="material-icons icon-sizing my-4 text-white cursor-pointer place-self-center">poll</span>
@@ -85,32 +85,5 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
-    <script>
-        $(document).ready(function () {
-
-            $('#pollpage').show()
-
-            $('#home').click(() => {
-
-                $('#pollpage').hide()
-                $('#resultpage').hide()
-                $('#homepage').show()
-            })
-
-            $('#poll').click(() => {
-                $('#homepage').hide()
-                $('#resultpage').hide()
-                $('#pollpage').show()
-            })
-
-            $('#results').click(() => {
-                $('#homepage').hide()
-                $('#pollpage').hide()
-                $('#resultpage').show()
-            })
-        })
-        
-
-    </script>
 </body>
 </html>
