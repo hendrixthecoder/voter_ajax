@@ -1,6 +1,7 @@
-import './bootstrap';
+// import './bootstrap';
 
 $(document).ready(function(){
+
     
     $('#homepage').show()
 
@@ -23,6 +24,13 @@ $(document).ready(function(){
         $('#resultpage').show()
     })
 
+    $('#toggleLDBtn').click(() => {
+        $('#light').toggle();
+        $('#dark').toggle();
+        $('html').toggleClass('dark');
+        
+    })
+
     const openBtn = document.getElementById('openBtn');
     const btnClose = document.getElementById('closeBtn');
     const modal = document.getElementById('modal');
@@ -41,7 +49,9 @@ $(document).ready(function(){
         url: "get-candidates",
         dataType: "JSON",
         success: function (response) {
+            console.log(response.candidates)
             $.each(response.candidates, (key, {name, vote_count}) => {
+                
                 $('#candidate').append(
                     `<option id="${key}" value="${name}">${name}</option>`
                 )
@@ -69,7 +79,7 @@ $(document).ready(function(){
             url: "get-candidates",
             dataType: "JSON",
             success: function (response) {
-                if(response.users != ''){
+                if(response.users != '' && response.status == 200){
                     $("#palate").html('')
 
                     $.each(response.candidates, (key, {name,vote_count}) => {

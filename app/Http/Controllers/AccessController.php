@@ -16,7 +16,7 @@ class AccessController extends Controller
     public function vote (Request $request) {
         // Validate incoming rquest fields
         $validator = Validator::make($request->all(), [
-            'name' => 'bail|required|',
+            'name' => 'bail|required|alpha',
             'email' => 'bail|required|email',
             'candidate' => 'bail|required|'
         ]);
@@ -71,6 +71,7 @@ class AccessController extends Controller
 
     public function getCandidates () {
         return response()->json([
+            'status' => 200,
             'candidates' => Candidate::all()
         ]);
 
